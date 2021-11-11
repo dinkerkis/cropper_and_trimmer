@@ -12,10 +12,11 @@ import 'package:video_player/video_player.dart';
 //-------------------//
 
 class VideoEditor extends StatefulWidget {
-  VideoEditor({Key? key, required this.file, this.onUpdatedVideo}) : super(key: key);
+  VideoEditor({Key? key, required this.file, this.onUpdatedVideo, this.onCancelPressed}) : super(key: key);
 
   final File file;
   final UpdatedVideo? onUpdatedVideo;
+  final CancelPressed? onCancelPressed;
 
   @override
   _VideoEditorState createState() => _VideoEditorState();
@@ -214,6 +215,9 @@ class _VideoEditorState extends State<VideoEditor> {
               ),
               onPressed: () {
                 Navigator.pop(context);
+                if (widget.onCancelPressed != null ) {
+                  widget.onCancelPressed;
+                }
               },
             ),
             Expanded(

@@ -8,29 +8,27 @@ import 'package:video_player/video_player.dart';
 
 typedef UpdatedVideo = void Function(File file);
 typedef UpdatedImage = void Function(File file);
+typedef CancelPressed = void Function();
 
 enum Type {
   video,
   image
 }
 
-class MainEditor extends StatefulWidget {
+class CropperAndTrimmer extends StatefulWidget {
   final UpdatedVideo? onUpdatedVideo;
   final UpdatedImage? onUpdatedImage;
   final Type type;
   final bool shouldPreview;
   final File file;
 
-  const MainEditor({Key? key, this.onUpdatedVideo, this.onUpdatedImage, required this.type, required this.file, this.shouldPreview = false}) : super(key: key);
+  const CropperAndTrimmer({Key? key, this.onUpdatedVideo, this.onUpdatedImage, required this.type, required this.file, this.shouldPreview = false}) : super(key: key);
 
   @override
-  _MainEditorState createState() => _MainEditorState();
+  _CropperAndTrimmerState createState() => _CropperAndTrimmerState();
 }
 
-
-typedef GalleryImagePicked = void Function(File file);
-
-class _MainEditorState extends State<MainEditor> {
+class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
 
   File? imageSelected;
   File? videoSelected;
@@ -40,31 +38,60 @@ class _MainEditorState extends State<MainEditor> {
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      // Add Your Code here.
+      updateScreen();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // updateScreen();
+  }
+
+  Future updateScreen() async{
+
     if (widget.type == Type.image) {
+      imageSelected = widget.file;
       _cropImage(widget.file);
     }
     else {
+      videoSelected = widget.file;
+
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) =>
               VideoEditor(file: File(widget.file.path),
-                onUpdatedVideo: (file) {
-                  videoSelected = file;
-                  imageSelected = null;
-
-                  if (widget.shouldPreview) {
-                    _updateVideoFile(file);
-                    setState(() {
-
-                    });
+                onCancelPressed: () {
+                  if (mounted) {
+                    Navigator.pop(context);
                   }
-                  else {
-                    _doneEdit();
+                },
+                onUpdatedVideo: (file) {
+                  if (mounted) {
+                    videoSelected = file;
+                    imageSelected = null;
+
+                    if (widget.shouldPreview) {
+                      _updateVideoFile(file);
+                      setState(() {
+
+                      });
+                    }
+                    else {
+                      _doneEdit();
+                    }
                   }
                 },
               ),
         ),
-      );
+      ).then((value) {
+        setState(() {
+
+        });
+      });
     }
   }
 
@@ -74,7 +101,7 @@ class _MainEditorState extends State<MainEditor> {
     _controller.dispose();
   }
 
-  Future _cropImage(File imageFile, {bool isImage = true}) async {
+  Future _cropImage(File imageFile) async {
     File? croppedFile = await ImageCropper.cropImage(
         sourcePath: imageFile.path,
         aspectRatioPresets: Platform.isAndroid
@@ -143,6 +170,7 @@ class _MainEditorState extends State<MainEditor> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
+        leading: Container(),
         title: widget.shouldPreview ? Text('Preview') : Text(''),
       ),
       body: Center(

@@ -1,39 +1,80 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# cropper_and_trimmer
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+A new Flutter project.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+## Getting Started
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+With this package you can crop/trim your photos and videos.
 
-## Features
+## iOS Target
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+This package will work for iOS 13 or later versions.
 
-## Getting started
+## iOS plist config
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Because the album is a privacy privilege, you need user permission to access it. You must to modify the Info.plist file in Runner project.
 
-## Usage
+``` 
+    <key>NSCameraUsageDescription</key>
+    <string>Use</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Use</string>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>Use</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Use</string>
+    
+``` 
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+## 1.  Add in pubspec.yaml file under
 
-```dart
-const like = 'sample';
-```
+dependencies:
+``` 
+ cropper_and_trimmer:  
+   git:  
+     url: https://github.com/dinkerkis/cropper_and_trimmer.git
+``` 
 
-## Additional information
+## 2. Add package
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+``` 
+import 'package:cropper_and_trimmer/cropper_and_trimmer.dart';
+
+``` 
+
+
+## 3.  Use in the code like this:
+
+1. For image
+
+``` 
+CropperAndTrimmer(file: <galleryImagePicked> as File,
+                shouldPreview: true,
+                type: Type.image,
+                onUpdatedImage: (file) {
+                  if (mounted) {
+                    setState(() {
+
+                    });
+                  }
+                },
+              ),
+
+``` 
+2. For video
+
+``` 
+CropperAndTrimmer(file: <galleryVideoPicked> as File,
+                  shouldPreview: true,
+                  type: Type.video,
+                  onUpdatedVideo: (file) {
+                    _controller = VideoPlayerController.file(file)
+                      ..initialize().then((_) {
+                        _controller.pause();
+                        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+                        setState(() {});
+                      });
+                  },
+                ),
+
+``` 
