@@ -3,10 +3,11 @@
 A new Flutter project.
 
 ## Screenshot
-![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 52 31](https://user-images.githubusercontent.com/82141553/141454259-8b581c4a-ef0a-4c2d-95c7-b2c8805c7da9.png)
-![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 52 15](https://user-images.githubusercontent.com/82141553/141454284-0e9fae71-0ad4-4144-ab27-85fa4719f880.png)
-![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 51 52](https://user-images.githubusercontent.com/82141553/141454290-aac8d3fd-b356-4441-bd59-537b8ade6b8e.png)
-![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 51 38](https://user-images.githubusercontent.com/82141553/141454293-78a8cfb1-d98a-4634-b0a6-9920c458639d.png)
+1. Crop Image 
+![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 51 38](https://user-images.githubusercontent.com/82141553/141455112-ac81e705-2f5b-43c1-a2f2-7a0b5dddb8dc.png) ![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 51 52](https://user-images.githubusercontent.com/82141553/141455125-4a5cbe88-d41e-4e78-a277-ff42220c69d9.png)
+
+2. Crop/Trim Video
+![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 52 15](https://user-images.githubusercontent.com/82141553/141455152-ec5c3fe3-f1fb-4728-ae05-463fbb764ee7.png) ![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 52 31](https://user-images.githubusercontent.com/82141553/141455197-2015fe2b-c031-4ba1-8633-439b086a8ea2.png)
 
 
 
