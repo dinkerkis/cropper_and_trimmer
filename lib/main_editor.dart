@@ -61,10 +61,6 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
   @override
   void initState() {
 
-    backgroundColor = widget.backgroundColor ?? Colors.black;
-    primaryColor = widget.primaryColor ?? Theme.of(context).primaryColorDark;
-    secondaryColor = widget.secondaryColor ?? Theme.of(context).primaryColorLight;
-
     super.initState();
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -233,6 +229,10 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
 
   @override
   Widget build(BuildContext context) {
+    backgroundColor = widget.backgroundColor ?? Colors.black;
+    primaryColor = widget.primaryColor ?? Theme.of(context).primaryColorDark;
+    secondaryColor = widget.secondaryColor ?? Theme.of(context).primaryColorLight;
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
