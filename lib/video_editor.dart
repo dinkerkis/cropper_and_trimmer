@@ -177,7 +177,7 @@ class _VideoEditorState extends State<VideoEditor> {
                                       children: [
                                         Padding(
                                             padding: Margin.all(5),
-                                            child: Icon(Icons.content_cut)),
+                                            child: Icon(Icons.content_cut, color: secondaryColor)),
                                         Text('Trim', style: TextStyle(color: secondaryColor),)
                                       ]),
                                   Row(
@@ -186,7 +186,7 @@ class _VideoEditorState extends State<VideoEditor> {
                                       children: [
                                         Padding(
                                             padding: Margin.all(5),
-                                            child: Icon(Icons.video_label)),
+                                            child: Icon(Icons.video_label, color: secondaryColor)),
                                         Text('Cover', style: TextStyle(color: secondaryColor))
                                       ]),
                                 ],
@@ -391,7 +391,16 @@ class CropScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Column(children: [
+          Expanded(
+            child: AnimatedInteractiveViewer(
+              maxScale: 2.4,
+              child: CropGridViewer(
+                  controller: controller, horizontalMargin: 60),
+            ),
+          ),
+          SizedBox(height: 15),
           Container(
+            height: 44,
             color: primaryColor,
             child: Row(children: [
               Expanded(
@@ -414,14 +423,6 @@ class CropScreen extends StatelessWidget {
                 ),
               )
             ]),
-          ),
-          SizedBox(height: 15),
-          Expanded(
-            child: AnimatedInteractiveViewer(
-              maxScale: 2.4,
-              child: CropGridViewer(
-                  controller: controller, horizontalMargin: 60),
-            ),
           ),
         ]),
       ),
