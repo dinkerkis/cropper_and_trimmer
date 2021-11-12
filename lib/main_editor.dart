@@ -301,6 +301,7 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
                   Center(
                     child: _controller.value.isInitialized
                         ? FloatingActionButton(
+                      backgroundColor: secondaryColor,
                       onPressed: () {
                         setState(() {
                           _controller.value.isPlaying
@@ -310,6 +311,7 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
                       },
                       child: Icon(
                         _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                        color: primaryColor,
                       ),
                     ) : Container(),
                   ),
