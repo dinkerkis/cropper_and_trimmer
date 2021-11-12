@@ -16,6 +16,7 @@ dependencies:
   video_editor: any
   image_picker: any
   helpers: any
+  gallery_saver: any
 
 dev_dependencies:
   flutter_test:

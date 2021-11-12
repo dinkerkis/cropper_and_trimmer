@@ -1,13 +1,16 @@
 import 'dart:io';
 
+import 'package:cropper_and_trimmer/cropper_and_trimmer.dart';
 import 'package:cropper_and_trimmer/video_editor.dart';
 import 'package:flutter/material.dart';
+import 'package:gallery_saver/gallery_saver.dart';
+import 'package:helpers/helpers.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:video_player/video_player.dart';
 
 
-typedef UpdatedVideo = void Function(File file);
-typedef UpdatedImage = void Function(File file);
+typedef VideoUpdated = void Function(File file);
+typedef ImageUpdated = void Function(File file);
 typedef CancelPressed = void Function();
 
 enum Type {
@@ -15,14 +18,34 @@ enum Type {
   image
 }
 
+Color backgroundColor = Colors.black;
+Color primaryColor = Colors.black;
+Color secondaryColor = Colors.white;
+
 class CropperAndTrimmer extends StatefulWidget {
-  final UpdatedVideo? onUpdatedVideo;
-  final UpdatedImage? onUpdatedImage;
+  final VideoUpdated? onVideoUpdated;
+  final ImageUpdated? onImageUpdated;
+  final CancelPressed? onCancelPressed;
   final Type type;
   final bool shouldPreview;
   final File file;
+  final bool saveToGallery;
+  final Color? backgroundColor;
+  final Color? primaryColor;
+  final Color? secondaryColor;
 
-  const CropperAndTrimmer({Key? key, this.onUpdatedVideo, this.onUpdatedImage, required this.type, required this.file, this.shouldPreview = false}) : super(key: key);
+  const CropperAndTrimmer({Key? key,
+    this.onVideoUpdated,
+    this.onImageUpdated,
+    this.onCancelPressed,
+    required this.type,
+    required this.file,
+    this.shouldPreview = false,
+    this.saveToGallery = false,
+    this.backgroundColor,
+    this.primaryColor,
+    this.secondaryColor,
+  }) : super(key: key);
 
   @override
   _CropperAndTrimmerState createState() => _CropperAndTrimmerState();
@@ -33,9 +56,15 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
   File? imageSelected;
   File? videoSelected;
   VideoPlayerController _controller = VideoPlayerController.network('');
+  final _isSaving = ValueNotifier<bool>(false);
 
   @override
   void initState() {
+
+    backgroundColor = widget.backgroundColor ?? Colors.black;
+    primaryColor = widget.primaryColor ?? Theme.of(context).primaryColorDark;
+    secondaryColor = widget.secondaryColor ?? Theme.of(context).primaryColorLight;
+
     super.initState();
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -124,8 +153,8 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
         ],
         androidUiSettings: AndroidUiSettings(
             toolbarTitle: 'Cropper',
-            toolbarColor: Theme.of(context).primaryColorDark,
-            toolbarWidgetColor: Theme.of(context).primaryColorLight,
+            toolbarColor: primaryColor,
+            toolbarWidgetColor: secondaryColor,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
         iosUiSettings: IOSUiSettings(
@@ -150,15 +179,53 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
 
   _doneEdit() {
     if (widget.type == Type.image) {
-      if (widget.onUpdatedImage != null && imageSelected != null) {
-        widget.onUpdatedImage!(imageSelected as File);
-      }
 
+      if (widget.onImageUpdated != null && imageSelected != null) {
+
+        if (widget.saveToGallery) {
+          _isSaving.value = true;
+          GallerySaver.saveImage(imageSelected!.path).then((status) {
+
+            var success = status ?? false;
+            _isSaving.value = false;
+            if (success) {
+              print('Success: Saving image to gallery');
+              widget.onImageUpdated!(imageSelected as File);
+            }
+            else {
+              print('Failed: Saving image to gallery');
+            }
+          });
+        }
+        else {
+          widget.onImageUpdated!(imageSelected as File);
+        }
+      }
     }
     else
     {
-      if (widget.onUpdatedVideo != null && videoSelected != null) {
-        widget.onUpdatedVideo!(videoSelected as File);
+      if (widget.onVideoUpdated != null && videoSelected != null) {
+
+        if (widget.saveToGallery) {
+          _isSaving.value = true;
+
+          GallerySaver.saveVideo(videoSelected!.path).then((status) {
+
+            var success = status ?? false;
+            _isSaving.value = false;
+
+            if (success) {
+              print('Success: Saving video to gallery');
+              widget.onImageUpdated!(videoSelected as File);
+            }
+            else {
+              print('Failed: Saving vidoe to gallery');
+            }
+          });
+        }
+        else {
+          widget.onVideoUpdated!(videoSelected as File);
+        }
       }
     }
     Navigator.pop(context);
@@ -167,11 +234,43 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        leading: Container(),
-        title: widget.shouldPreview ? Text('Preview') : Text(''),
+        backgroundColor: primaryColor,
+        leadingWidth: 100,
+        leading: FlatButton(
+          child: Text(
+            'Cancel',
+            style: TextStyle(
+              color: secondaryColor,
+              fontSize: 18,
+            ),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            if (widget.onCancelPressed != null ) {
+              widget.onCancelPressed;
+            }
+          },
+        ),
+        title: widget.shouldPreview ? Text('Preview', style: TextStyle(
+          color: secondaryColor,
+          fontSize: 18,
+        ),) : Text(''),
+        actions: [
+          FlatButton(
+            child: Text(
+              'Done',
+              style: TextStyle(
+                color: secondaryColor,
+                fontSize: 18,
+              ),
+            ),
+            onPressed: () {
+              _doneEdit();
+            },
+          ),
+        ],
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -212,6 +311,22 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
                       ),
                     ) : Container(),
                   ),
+                  ValueListenableBuilder(
+                    valueListenable: _isSaving,
+                    builder: (_, bool export, __) => OpacityTransition(
+                      visible: export,
+                      child: AlertDialog(
+                        backgroundColor: secondaryColor,
+                        title: Text(
+                          'Saving',
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
                 ]
             ) : SizedBox(height: 0,)
         ),
