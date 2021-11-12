@@ -112,8 +112,9 @@ class _VideoEditorState extends State<VideoEditor> {
             child: Text(
               'Done',
               style: TextStyle(
-                color: secondaryColor,
-                fontSize: 18,
+                  color: secondaryColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold
               ),
             ),
             onPressed: () {
@@ -236,27 +237,27 @@ class _VideoEditorState extends State<VideoEditor> {
 
   Widget _topNavBar() {
     return Row(
-          children: [
-            Expanded(
-              child: GestureDetector(
-                onTap: () => _controller.rotate90Degrees(RotateDirection.left),
-                child: Icon(Icons.rotate_left, color: secondaryColor,),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () => _controller.rotate90Degrees(RotateDirection.right),
-                child: Icon(Icons.rotate_right, color: secondaryColor,),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: _openCropScreen,
-                child: Icon(Icons.crop, color: secondaryColor,),
-              ),
-            ),
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: () => _controller.rotate90Degrees(RotateDirection.left),
+            child: Icon(Icons.rotate_left, color: secondaryColor,),
+          ),
+        ),
+        Expanded(
+          child: GestureDetector(
+            onTap: () => _controller.rotate90Degrees(RotateDirection.right),
+            child: Icon(Icons.rotate_right, color: secondaryColor,),
+          ),
+        ),
+        Expanded(
+          child: GestureDetector(
+            onTap: _openCropScreen,
+            child: Icon(Icons.crop, color: secondaryColor,),
+          ),
+        ),
 
-          ],
+      ],
     );
   }
 
@@ -370,8 +371,9 @@ class CropScreen extends StatelessWidget {
             child: Text(
               'Done',
               style: TextStyle(
-                color: secondaryColor,
-                fontSize: 18,
+                  color: secondaryColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold
               ),
             ),
             onPressed: () {
@@ -389,8 +391,8 @@ class CropScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Column(children: [
-            Container(
-              color: primaryColor,
+          Container(
+            color: primaryColor,
             child: Row(children: [
               Expanded(
                 child: GestureDetector(
@@ -412,17 +414,17 @@ class CropScreen extends StatelessWidget {
                 ),
               )
             ]),
-    ),
-            SizedBox(height: 15),
-            Expanded(
-              child: AnimatedInteractiveViewer(
-                maxScale: 2.4,
-                child: CropGridViewer(
-                    controller: controller, horizontalMargin: 60),
-              ),
+          ),
+          SizedBox(height: 15),
+          Expanded(
+            child: AnimatedInteractiveViewer(
+              maxScale: 2.4,
+              child: CropGridViewer(
+                  controller: controller, horizontalMargin: 60),
             ),
-          ]),
-        ),
+          ),
+        ]),
+      ),
     );
   }
 

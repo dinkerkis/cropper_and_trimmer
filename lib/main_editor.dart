@@ -254,16 +254,18 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
           },
         ),
         title: widget.shouldPreview ? Text('Preview', style: TextStyle(
-          color: secondaryColor,
-          fontSize: 18,
+            color: secondaryColor,
+            fontSize: 18,
+            fontWeight: FontWeight.bold
         ),) : Text(''),
         actions: [
           FlatButton(
             child: Text(
               'Done',
               style: TextStyle(
-                color: secondaryColor,
-                fontSize: 18,
+                  color: secondaryColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold
               ),
             ),
             onPressed: () {
@@ -331,12 +333,7 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
             ) : SizedBox(height: 0,)
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _doneEdit();
-        },
-        child: const Icon(Icons.navigate_next_outlined),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
