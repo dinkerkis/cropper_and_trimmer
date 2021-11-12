@@ -50,8 +50,8 @@ import 'package:cropper_and_trimmer/cropper_and_trimmer.dart';
 ``` 
 CropperAndTrimmer(file: <galleryImagePicked> as File,
                 shouldPreview: true,
-                type: Type.image,
-                onUpdatedImage: (file) {
+                fileType: FileType.image,
+                onImageUpdated: (file) {
                   if (mounted) {
                     setState(() {
 
@@ -66,8 +66,8 @@ CropperAndTrimmer(file: <galleryImagePicked> as File,
 ``` 
 CropperAndTrimmer(file: <galleryVideoPicked> as File,
                   shouldPreview: true,
-                  type: Type.video,
-                  onUpdatedVideo: (file) {
+                  fileType: FileType.video,
+                  onVideoUpdated: (file) {
                     _controller = VideoPlayerController.file(file)
                       ..initialize().then((_) {
                         _controller.pause();
@@ -77,4 +77,29 @@ CropperAndTrimmer(file: <galleryVideoPicked> as File,
                   },
                 ),
 
+``` 
+
+##4. Description of arguments and Other benefits
+
+``` 
+1. File file :
+    You need to pass the file image/video which you want to edit.
+2. FileType fileType :
+    In this, you need to pass the type of file i.e. image or video.
+3. VideoUpdated? onVideoUpdated :
+    In this function, you will get callback on done button click and get the final video edited.
+4. ImageUpdated? onImageUpdated :
+    In this function, you will get callback on done button click and get the final image edited.
+5. CancelPressed? onCancelPressed  :
+    In this function, you will get calback on cancel button click. 
+6. bool shouldPreview :
+    If want to preview your file, then pass true. default is false.
+7. bool saveToGallery :
+    If want to save the returned file to gallery, then pass true. default is false.
+8. Color? backgroundColor :
+    If want to change the background color, default is black.
+9. Color? primaryColor :
+    If want to change the primary color, default is black.
+10. Color? secondaryColor :
+    If want to change the secondary color, default is white.
 ``` 

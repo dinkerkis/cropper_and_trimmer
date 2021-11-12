@@ -13,7 +13,7 @@ typedef VideoUpdated = void Function(File file);
 typedef ImageUpdated = void Function(File file);
 typedef CancelPressed = void Function();
 
-enum Type {
+enum FileType {
   video,
   image
 }
@@ -26,7 +26,7 @@ class CropperAndTrimmer extends StatefulWidget {
   final VideoUpdated? onVideoUpdated;
   final ImageUpdated? onImageUpdated;
   final CancelPressed? onCancelPressed;
-  final Type type;
+  final FileType fileType;
   final bool shouldPreview;
   final File file;
   final bool saveToGallery;
@@ -38,7 +38,7 @@ class CropperAndTrimmer extends StatefulWidget {
     this.onVideoUpdated,
     this.onImageUpdated,
     this.onCancelPressed,
-    required this.type,
+    required this.fileType,
     required this.file,
     this.shouldPreview = false,
     this.saveToGallery = false,
@@ -78,7 +78,7 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
 
   Future updateScreen() async{
 
-    if (widget.type == Type.image) {
+    if (widget.fileType == FileType.image) {
       imageSelected = widget.file;
       _cropImage(widget.file);
     }
@@ -174,7 +174,7 @@ class _CropperAndTrimmerState extends State<CropperAndTrimmer> {
   }
 
   _doneEdit() {
-    if (widget.type == Type.image) {
+    if (widget.fileType == FileType.image) {
 
       if (widget.onImageUpdated != null && imageSelected != null) {
 
