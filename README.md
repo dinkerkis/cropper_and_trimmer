@@ -2,6 +2,14 @@
 
 A new Flutter project.
 
+## Screenshot
+![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 52 31](https://user-images.githubusercontent.com/82141553/141454259-8b581c4a-ef0a-4c2d-95c7-b2c8805c7da9.png)
+![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 52 15](https://user-images.githubusercontent.com/82141553/141454284-0e9fae71-0ad4-4144-ab27-85fa4719f880.png)
+![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 51 52](https://user-images.githubusercontent.com/82141553/141454290-aac8d3fd-b356-4441-bd59-537b8ade6b8e.png)
+![Simulator Screen Shot - iPhone 12 Pro Max - 2021-11-12 at 15 51 38](https://user-images.githubusercontent.com/82141553/141454293-78a8cfb1-d98a-4634-b0a6-9920c458639d.png)
+
+
+
 ## Getting Started
 
 With this package you can crop/trim your photos and videos.
